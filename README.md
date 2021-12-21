@@ -13,3 +13,7 @@ The code is tested with OpenFOAM-v1906 and is not initially meant for public use
 * BFS - Simulation example of a backward-facing step with conjugate heat transfer
 * plate - Simulation example of thin horizontal plate quenched in water
 * cylinder - Simulation example of cylinder quenched in water
+
+## PhD Link
+
+A link to the PhD will be added after the viva.
