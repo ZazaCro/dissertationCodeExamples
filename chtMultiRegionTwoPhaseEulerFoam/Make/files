@@ -1,0 +1,5 @@
+derivedFvPatchFields/turbulentTemperatureTwoPhaseRadCoupledMixedBiot/turbulentTemperatureTwoPhaseRadCoupledMixedBiotFvPatchScalarField.C
+$(FOAM_APP)/solvers/heatTransfer/chtMultiRegionFoam/solid/solidRegionDiffNo.C
+chtMultiRegionTwoPhaseEulerFoamCustomized.C
+
+EXE = $(FOAM_USER_APPBIN)/chtMultiRegionTwoPhaseEulerFoamCustomized

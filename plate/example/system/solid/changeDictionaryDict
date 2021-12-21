@@ -1,0 +1,71 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  5                                     |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+T
+{
+    internalField   uniform 298.15;
+
+    boundaryField
+    {
+
+        pipe_ends
+        {
+            type        zeroGradient;
+        }
+
+        pipe_inside
+        {
+            type        fixedValue;
+            value       $internalField;
+        }
+        solid_to_fluid
+        {
+            type            turbulentTemperatureCoupledBaffleMixedTwoPhase;
+            value           $internalField;
+            TnbrPhase       T.gas;
+            TnbrOtherPhase  T.liquid;
+            kappaMethod     solidThermo;
+            phase           gas;
+            otherPhase      liquid;
+        }
+    }
+}
+
+p
+{
+    internalField   uniform 101325;
+
+    boundaryField
+    {
+        pipe_ends
+        {
+            type        calculated;
+            value       $internalField;
+        }
+
+        pipe_inside
+        {
+            type        calculated;
+            value       $internalField;
+        }
+        solid_to_fluid
+        {
+            type            calculated;
+            value           uniform 0; //Why 0?
+        }
+    }
+}
+// ************************************************************************* //

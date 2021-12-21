@@ -1,0 +1,5 @@
+TFluid/TFluid.C
+yPlusPhase/yPlusPhase.C
+wallHeatFluxPhase/wallHeatFluxPhase.C
+
+LIB = $(FOAM_USER_LIBBIN)/libfieldFunctionObjectsCustomized

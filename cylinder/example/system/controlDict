@@ -1,0 +1,134 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version         2;
+    format          ascii;
+    class           dictionary;
+    location        "system";
+    object          controlDict;
+}
+
+application     chtMultiRegionTwoPhaseEulerFoamCustomized;
+
+startFrom       latestTime;
+
+startTime       0;
+
+stopAt          endTime;
+
+endTime         30;
+
+deltaT          1e-08;
+
+writeControl    adjustableRunTime;
+
+writeInterval   0.2;
+
+purgeWrite      0;
+
+writeFormat     ascii;
+
+writePrecision  12;
+
+writeCompression off;
+
+timeFormat      general;
+
+timePrecision   6;
+
+runTimeModifiable yes;
+
+adjustTimeStep  yes;
+
+maxCo           0.5;
+
+maxDi           0.5;
+
+maxDeltaT       0.001;
+
+OptimisationSwitches
+{
+    fileHandler     collated;
+}
+
+DebugSwitches
+{
+    compressible::alphatWallBoilingWallFunctionCustomized 0;
+    compressible::turbulentTemperatureTwoPhaseRadCoupledMixed 0;
+}
+
+functions
+{
+    yPlusPhaseLiquid
+    {
+        type            yPlusPhase;
+        region          fluid;
+        libs            ( "libfieldFunctionObjectsCustomized" );
+        phase           liquid;
+        result          yPlus.liquid;
+        writeControl    writeTime;
+    }
+    yPlusPhaseGas
+    {
+        type            yPlusPhase;
+        region          fluid;
+        libs            ( "libfieldFunctionObjectsCustomized" );
+        phase           gas;
+        result          yPlus.gas;
+        writeControl    writeTime;
+    }
+    wallHeatFluxSolid
+    {
+        type            wallHeatFluxPhase;
+        region          solid;
+        libs            ( "libfieldFunctionObjectsCustomized" );
+        result          wallHeatFlux;
+        writeControl    writeTime;
+        patches         (solid_to_fluid);
+    }
+    wallHeatFluxLiquid
+    {
+        type            wallHeatFluxPhase;
+        region          fluid;
+        libs            ( "libfieldFunctionObjectsCustomized" );
+        phase           liquid;
+        result          wallHeatFlux.liquid;
+        writeControl    writeTime;
+        patches         (fluid_to_solid);
+    }
+    wallHeatFluxGas
+    {
+        type            wallHeatFluxPhase;
+        region          fluid;
+        libs            ( "libfieldFunctionObjectsCustomized" );
+        phase           gas;
+        result          wallHeatFlux.gas;
+        writeControl    writeTime;
+        patches         (fluid_to_solid);
+    }
+    Tfluid
+    {
+        type            TFluid;
+        region          fluid;
+        libs            ( "libfieldFunctionObjectsCustomized" );
+        phase           liquid;
+        otherPhase      gas;
+        result          TFluid;
+        writeControl    writeTime;
+        patches         (fluid_to_solid);
+    }
+}
+
+libs
+(
+"libreactingEulerianFvPatchFieldsCustomized.so"
+);
+
+
+// ************************************************************************* //

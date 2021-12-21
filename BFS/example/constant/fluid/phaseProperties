@@ -1,0 +1,114 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant";
+    object      phaseProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type    thermalPhaseChangeTwoPhaseSystem;
+
+phases (gas liquid);
+
+phaseChange off;
+
+gas
+{
+    type            purePhaseModel;
+    diameterModel   isothermal;
+    constantCoeffs
+    {
+        d               0.00045;
+    }
+
+    isothermalCoeffs
+    {
+        d0               0.00045;
+        p0              1e5;
+    }
+    Sc              0.7;
+
+    residualAlpha   1e-4;
+}
+
+liquid
+{
+    type            purePhaseModel;
+    diameterModel   constant;
+    constantCoeffs
+    {
+        d               0.00045;
+    }
+    Sc              0.7;
+
+    residualAlpha   1e-4;
+}
+
+blending
+{
+    default
+    {
+        type            none;
+        continuousPhase liquid; 
+    }
+}
+
+surfaceTension
+(
+);
+
+saturationModel
+{
+    type constant;
+    pSat    150000;
+    Tsat    400;    /* function csvFile; */
+};
+
+aspectRatio
+();
+
+drag
+(
+);
+
+virtualMass
+(
+);
+
+heatTransfer.gas
+(
+);
+
+heatTransfer.liquid
+(
+);
+
+phaseTransfer
+();
+
+lift
+(
+);
+
+wallLubrication
+(
+);
+
+turbulentDispersion
+(
+);
+
+// Minimum allowable pressure
+    pMin            10000;
+
+
+// ************************************************************************* //

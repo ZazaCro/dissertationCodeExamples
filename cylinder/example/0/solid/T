@@ -1,0 +1,47 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/solid";
+    object      T;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 0 0 1 0 0 0];
+
+
+internalField   uniform 1232.8;
+
+boundaryField
+{
+    symmetry1
+    {
+        type            symmetry;
+    }
+    symmetry2
+    {
+        type            symmetry;
+    }
+    solid_to_fluid
+    {
+        type            compressible::turbulentTemperatureTwoPhaseRadCoupledMixedBiot;
+        Tnbr            T.gas;
+        kappaMethod     solidThermo;
+        region          solid;
+        otherPhase      liquid;
+        qrNbr           none;
+        qr              none;
+        value           uniform 1232.75;
+    }
+}
+
+
+// ************************************************************************* //

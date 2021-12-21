@@ -1,0 +1,119 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v1906                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      alphat.liquid;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [1 -1 -1 0 0 0 0];
+
+
+internalField   uniform 1e-08;
+
+boundaryField
+{
+    bottom
+    {
+        type            compressible::alphatPhaseChangeJayatillekeWallFunction;
+        Prt             0.85;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+        dmdt            uniform 0;
+        value           uniform 1e-08;
+    }
+    outlet
+    {
+        type            calculated;
+        value           uniform 1e-08;
+    }
+    symmetry1
+    {
+        type            symmetry;
+    }
+    symmetry2
+    {
+        type            symmetry;
+    }
+    wall
+    {
+        type            compressible::alphatPhaseChangeJayatillekeWallFunction;
+        Prt             0.85;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+        dmdt            uniform 0;
+        value           uniform 1e-08;
+    }
+    fluid_to_solid
+    {
+        type            compressible::alphatWallBoilingWallFunctionCustomized;
+        otherPhase      gas;
+        phaseType       liquid;
+        Prt             0.85;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+        dmdt            uniform 0;
+        relax           constant 1;
+        partitioningModel
+        {
+            type            phaseFraction;
+        }
+        nucleationSiteModel
+        {
+            type            LemmertChawla;
+            Cn              1;
+        }
+        departureDiamModel
+        {
+            type            TolubinskiKostanchuk;
+        }
+        departureFreqModel
+        {
+            type            Cole;
+        }
+        LeidenfrostModel
+        {
+            type            const;
+            TLeid           1260;
+        }
+        CHFModel
+        {
+            type            Zuber;
+        }
+        CHFSubCoolModel
+        {
+            type            HuaXu;
+            Kburn           1;
+        }
+        MHFModel
+        {
+            type            Jeschar;
+            Kmhf            1;
+        }
+        TDNBModel
+        {
+            type            const;
+            TDNB            500;
+        }
+        filmBoilingModel
+        {
+            type            Bromley;
+        }
+        value           uniform 1e-08;
+    }
+}
+
+
+// ************************************************************************* //

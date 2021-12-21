@@ -1,0 +1,6 @@
+alphatWallBoilingWallFunctionCustomized_v1906/alphatWallBoilingWallFunctionFvPatchScalarFieldCustomized_v1906.C
+wallBoilingSubModels/LeidenfrostModels/constantTLeid/constantTLeid.C
+wallBoilingSubModels/TDNBModels/constTDNB/constTDNB.C
+wallBoilingSubModels/nucleationSiteModels/LemmertChawlaCustom/LemmertChawlaCustom.C
+
+LIB = $(FOAM_USER_LIBBIN)/libreactingEulerianFvPatchFieldsCustomized

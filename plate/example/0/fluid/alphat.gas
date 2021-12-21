@@ -1,0 +1,68 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Website:  https://openfoam.org
+    \\  /    A nd           | Version:  dev
+     \\/     M anipulation  |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0/fluid";
+    object      alphat.gas;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [ 1 -1 -1 0 0 0 0 ];
+
+internalField   uniform 1e-08;
+
+boundaryField
+{
+    walls
+    {
+        type            compressible::alphatPhaseChangeJayatillekeWallFunction;
+        Prt             0.85;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+    
+        dmdt            uniform 0;
+        value           uniform 1e-08;
+    }
+    maxY
+    {
+        type            calculated;
+        value           uniform 1e-08;
+    }
+    fluid_to_solid
+    {
+        type            compressible::alphatWallBoilingWallFunctionCustomized;
+        otherPhase      liquid;
+        phaseType       vapor;
+        Prt             0.85;
+        Cmu             0.09;
+        kappa           0.41;
+        E               9.8;
+        relax           1.0;
+        partitioningModel
+        {
+            type            phaseFraction;
+        }
+        LeidenfrostModel
+        {
+            type        const;
+            TLeid       550;
+        }
+        filmBoilingModel
+        {
+            type        Bromley;
+        }
+        value           uniform 0;
+    }
+}
+
+
+// ************************************************************************* //
